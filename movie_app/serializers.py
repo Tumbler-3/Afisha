@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 from .models import Director, Movie, Review
 
 
@@ -22,6 +23,10 @@ class DirectorDetailSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class DirectorValidatorSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=50)
+
+
 class MovieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
@@ -34,6 +39,20 @@ class MovieDetailSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class MovieValidatorSerializer(serializers.Serializer):
+    title = serializers.CharField(max_length=50)
+    description = serializers.CharField()
+    duration = serializers.DurationField()
+    director_id = serializers.IntegerField(min_value=1)
+    
+    def validate_director_id(self, director_id):
+        try:
+            Director.objects.get(id=director_id)
+        except Director.DoesNotExist:
+            raise ValidationError(f'Director with {director_id} id does not exists')
+        return director_id
+
+
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
@@ -44,6 +63,19 @@ class ReviewDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = '__all__'
+        
+
+class ReviewValidatorSerializer(serializers.Serializer):
+    text = serializers.CharField()
+    movie_id = serializers.IntegerField(min_value=1)
+    stars = serializers.IntegerField(min_value=1, max_value=5)
+    
+    def validate_movie_id(self, movie_id):
+        try:
+            Movie.objects.get(id=movie_id)
+        except Movie.DoesNotExist:
+            raise ValidationError(f'Movie with {movie_id} id does not exists')
+        return movie_id
 
 
 class MovieReviewSerializer(serializers.ModelSerializer):
