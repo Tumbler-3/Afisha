@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from movie_app.views import (director_view, director_detail_view, 
                              movie_view, movie_detail_view, review_view, 
                              review_detail_view, movie_review_view) 
@@ -32,4 +32,6 @@ urlpatterns = [
     
     path('api/v1/reviews/', review_view),
     path('api/v1/reviews/<int:id>/', review_detail_view),
+    
+    path('api/v1/profiles/', include('profiles.urls'))
 ]
