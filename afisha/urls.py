@@ -15,23 +15,23 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from movie_app.views import (director_view, director_detail_view, 
-                             movie_view, movie_detail_view, review_view, 
-                             review_detail_view, movie_review_view) 
+from movie_app.views import (DirectorViewAPI, DirectorDetailViewAPI, 
+                             MovieViewAPI, MovieDetailViewAPI, MovieReviewViewAPI,
+                             RevieViewAPI, ReviewDetailViewAPI) 
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     
-    path('api/v1/directors/', director_view),
-    path('api/v1/directors/<int:id>/', director_detail_view),
+    path('api/v1/directors/', DirectorViewAPI.as_view()),
+    path('api/v1/directors/<int:id>/', DirectorDetailViewAPI.as_view()),
 
-    path('api/v1/movies/', movie_view),
-    path('api/v1/movies/<int:id>/', movie_detail_view),
-    path('api/v1/movies/reviews/', movie_review_view),
+    path('api/v1/movies/', MovieViewAPI.as_view()),
+    path('api/v1/movies/<int:id>/', MovieDetailViewAPI.as_view()),
+    path('api/v1/movies/reviews/', MovieReviewViewAPI.as_view()),
     
-    path('api/v1/reviews/', review_view),
-    path('api/v1/reviews/<int:id>/', review_detail_view),
+    path('api/v1/reviews/', RevieViewAPI.as_view()),
+    path('api/v1/reviews/<int:id>/', ReviewDetailViewAPI.as_view()),
     
     path('api/v1/profiles/', include('profiles.urls'))
 ]

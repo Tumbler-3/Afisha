@@ -56,7 +56,7 @@ class MovieValidatorSerializer(serializers.Serializer):
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
-        fields = ('stars', 'text')
+        fields = ('stars', 'text', 'movie')
 
 
 class ReviewDetailSerializer(serializers.ModelSerializer):
