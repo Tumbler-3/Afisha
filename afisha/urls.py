@@ -19,6 +19,7 @@ from movie_app.views import (DirectorViewAPI, DirectorDetailViewAPI,
                              MovieViewAPI, MovieDetailViewAPI, MovieReviewViewAPI,
                              RevieViewAPI, ReviewDetailViewAPI) 
 
+from . import yasg
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -35,3 +36,6 @@ urlpatterns = [
     
     path('api/v1/profiles/', include('profiles.urls'))
 ]
+
+
+urlpatterns += yasg.urlpatterns
